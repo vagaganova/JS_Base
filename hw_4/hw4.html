@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <script>
+        'use strict'
+        /*
+        (это задание делайте по желанию) Написать функцию, преобразующую число в объект. Передавая на
+        вход число в диапазоне [0, 999],
+        мы должны получить на выходе объект, в котором в соответствующих свойствах описаны разряды числа:
+        - единицы (в свойстве units)
+        - десятки (в свойстве tens)
+        - сотни (в свойстве hundereds)
+        */
+        let num = prompt('Введите пожалуйста число от 0 до 999',undefined)
+        let _obj = {};
+        if(isNaN(num))alert('Вы ввели не число');
+        else if(num<0 || num.length>3 || !Number.isInteger(Number(num)))alert('Вы ввели неправильное число');
+        else{
+            let keys = ['units','tens','hundreds']
+             num.split('').reverse().forEach((digit,index)=>{
+                 _obj[keys[index]] = Number(digit)
+             });
+            alert(JSON.stringify(_obj))
+        }
+    </script>
+    <script>
+        'use strict'
+        /*
+        Сделайте в стиле es5, а затем в стиле es6 (по аналогии из дополнительных
+        видео -> 3 примеры наследования -> типы на es5 и es6), конструктор Product, который принимает параметры name
+        и price, сохраните их как свойства объекта. Также объекты типа Product должны иметь метод
+        make25PercentDiscount, который будет уменьшать цену в объекте на 25%. Имейте в виду, что метод
+        make25PercentDiscount не должен быть внутри функции-конструктора, и также не нужно создавать отдельный
+        объект-прототип (как объект transport в уроке).
+         */
+        function ProductES5 (name, price) {
+            this.name = name;
+            this.price = Number(price);
+        }
+        ProductES5.prototype.make25PercentDiscount = function () {
+            if(!isNaN(this.price))this.price *=0.75;
+        }
+        let product1 = new ProductES5('test prdouct', 100);
+        product1.make25PercentDiscount();
+        console.log(product1)
+        class ProductES6{
+            constructor(name, price) {
+                this.name = name;
+                this.price = price;
+            }
+            make25PercentDiscount(){
+                if(!isNaN(this.price))this.price *=0.75
+            }
+        }
+        let product2 = new ProductES6('test 2',150)
+        product2.make25PercentDiscount();
+        console.log(product2)
+    </script>
+    <script>
+        'use strict'
+        function PostES5(author, text, date) {
+            this.author = author;
+            this.text = text;
+            this.date = date;
+        }
+        PostES5.prototype.edit = function (editedText) {
+            this.text = editedText
+        }
+        function AttachedPostES5(author, text, date) {
+            PostES5.apply(this,arguments);
+            this.highlighted = false;
+        }
+        AttachedPostES5.prototype = Object.create(PostES5.prototype);
+        AttachedPostES5.prototype.constructor = AttachedPostES5;
+        AttachedPostES5.prototype.makeTextHighlighted = function () {
+            this.highlighted = true
+        }
+        let attachedpost1 = new AttachedPostES5('test author','tesssset',new Date(2012,0,1))
+        attachedpost1.edit('altered text');
+        attachedpost1.makeTextHighlighted()
+        console.log(attachedpost1)
+
+        class PostES6{
+            constructor(author, text, date) {
+                this.author = author;
+                this.text = text;
+                this.date = date;
+            }
+            edit(editedText) {
+                this.text = editedText
+            }
+        }
+        class AttachedPostES6 extends PostES6{
+            constructor(author, text, date) {
+                super(author, text, date);
+                this.highlighted = false;
+            }
+            makeTextHighlighted() {
+                this.highlighted = true
+            }
+        }
+        let attachedpost2 = new AttachedPostES6('test author','tesssset',new Date(2012,0,1))
+        attachedpost2.edit('altered text');
+        attachedpost2.makeTextHighlighted()
+        console.log(attachedpost2)
+    </script>
+</body>
+</html>
