@@ -1,0 +1,16 @@
+.header{
+    background: #222222;
+    padding: 19px 0;
+    color: white;
+    &_flex {
+        display: flex;
+        justify-content: space-between;
+    }
+    &_logo{
+        margin-right: 41px; 
+    }
+    &_item:not(:last-child){
+        margin-right: 33px;    
+    }
+}
+
